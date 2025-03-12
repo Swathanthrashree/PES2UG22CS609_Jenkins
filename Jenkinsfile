@@ -1,31 +1,35 @@
 pipeline {
     agent any
-
+    
     stages {
         stage('Build') {
             steps {
-                echo 'Starting Build Stage...'
-                sh 'g++ -o output main.cpp || exit 1'
+                
+                build 'PES2UG22CS609'
+                
+                
+                sh 'g++ -o output main.cpp'
             }
         }
-
+        
         stage('Test') {
             steps {
-                echo 'Starting Test Stage...'
-                sh 'chmod +x output && ./output'
+                
+                sh './output'
             }
         }
-
+        
         stage('Deploy') {
             steps {
+                
                 echo 'Deployment completed successfully'
             }
         }
     }
-
+    
     post {
         failure {
-            echo 'Pipeline failed. Please check the logs for errors.'
+            error 'Pipeline failed'
         }
     }
 }
